@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
-const inventoryRoutes = require('./routes/inventory');
+const inventoriesRoutes = require('./routes/inventories');
 const warehousesRoutes = require('./routes/warehouses');
 
 const PORT = process.env.PORT;
@@ -19,7 +19,7 @@ app.get('/', (_req, res) => {
     res.status(200).send(console.log("🔥 GET Success!"));
 });
 
-app.use('/inventory', inventoryRoutes);
+app.use('/inventories', inventoriesRoutes);
 app.use('/warehouses', warehousesRoutes);
 
 
