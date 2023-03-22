@@ -18,4 +18,8 @@ router
             })
 })
 
+router.get('/', (_req, res) => {
+    res.status(200).send(console.log("🔥 GET/warehouses Success!"));
+});
+
 module.exports = router;
