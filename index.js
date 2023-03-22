@@ -2,22 +2,21 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config();
+const warehouseRoutes = require('./routes/warehouses')
+
 
 const inventoriesRoutes = require('./routes/inventories');
-const warehousesRoutes = require('./routes/warehouses');
 
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
 
 app.use(cors(
-    {origin: CLIENT_URL}
+    { origin: CLIENT_URL }
 ));
 
 app.use(express.json());
 
-app.get('/', (_req, res) => {
-    res.status(200).send(console.log("🔥 GET Success!"));
-});
+app.use('/warehouse', warehouseRoutes)
 
 app.use('/inventories', inventoriesRoutes);
 app.use('/warehouses', warehousesRoutes);
