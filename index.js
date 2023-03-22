@@ -19,7 +19,6 @@ app.use(express.json());
 app.use('/warehouse', warehouseRoutes)
 
 app.use('/inventories', inventoriesRoutes);
-app.use('/warehouses', warehousesRoutes);
 
 
 app.listen(PORT, () => {
