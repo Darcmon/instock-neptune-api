@@ -44,7 +44,7 @@ exports.addWarehouse = (req, res) => {
       knex('warehouses')
       .insert(newWarehouse)
       .then((data)=> {
-        const newWarehouseURL = `/warehouse/data${data[0]}`
+        const newWarehouseURL = `/warehouse/${newWarehouse.id}`
         res.status(201).location(newWarehouseURL).send(newWarehouseURL);
       })
       .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
