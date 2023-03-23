@@ -3,6 +3,9 @@ const router = express.Router();
 const knex = require('knex')(require('../knexfile'))
 
 const fs = require('fs');
+const inventoryController = require('../controllers/inventoryController');
+
+router.route('/').get(inventoryController.index);
 
 // router.get('/', (_req, res) => {
 //     res.status(200).send(console.log("🔥 GET/inventories Success!"));
