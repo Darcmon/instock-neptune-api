@@ -49,3 +49,17 @@ exports.addWarehouse = (req, res) => {
       })
       .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
 }
+
+exports.specificWarehouse = (req, res) => {
+
+  knex('warehouses')
+    .where({id: req.params.id})
+    .then((warehouse) => {
+      res.status(200).json(warehouse)
+    })
+    .catch(() => {
+      res.status(400).json({
+        message: `Error getting warehouse at id: ${req.params.id}`
+      })
+    })
+}

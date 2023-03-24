@@ -4,11 +4,8 @@ const knex = require('knex')(require('../knexfile'))
 const warehouseController = require('../controllers/warehouseController');
 
 router.route('/').get(warehouseController.index);
+router.route('/:id').get(warehouseController.specificWarehouse);
 
-
-router.get('/', (_req, res) => {
-    res.status(200).send(console.log("🔥 GET/warehouses Success!"));
-});
 
 router.route('/add').post(warehouseController.addWarehouse)
 
