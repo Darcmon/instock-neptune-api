@@ -49,3 +49,49 @@ exports.addWarehouse = (req, res) => {
       })
       .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
 }
+
+exports.specificWarehouse = (req, res) => {
+
+  knex('warehouses')
+    .where({id: req.params.id})
+    .then((warehouse) => {
+      res.status(200).json(warehouse)
+    })
+    .catch(() => {
+      res.status(400).json({
+        message: `Error getting warehouse at id: ${req.params.id}`
+      })
+    })
+}
+
+exports.editWarehouse = (req, res) => {
+
+  const {warehouseName, warehouseAddress, warehouseCity, warehouseCountry, contactName, contactPosition, contactNumber, contactEmail} = req.body
+  if (!warehouseName || !warehouseAddress || !warehouseCity || !warehouseCountry || !contactName || !contactPosition || !contactNumber || !contactEmail) {
+    return res.status(400).send('Please make sure to provide all fields');
+  }
+
+  const updateWarehouse = {
+    id: req.param.id,
+    warehouse_name: warehouseName,
+    address: warehouseAddress,
+    city: warehouseCity,
+    country: warehouseCountry,
+    contact_name: contactName,
+    contact_position: contactPosition,
+    contact_phone: contactNumber,
+    contact_email: contactEmail
+  }
+
+  knex('warehouses')
+    .where({id: req.params.id})
+    .update(updateWarehouse)
+    .then((data) => {
+      res.status(200).send(req.params.id)
+    })
+    .catch(() => {
+      res.status(400).json({
+        message: `Error patching warehouse at id: ${req.params.id}`
+      })
+    })
+}
