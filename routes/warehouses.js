@@ -9,5 +9,6 @@ router.route('/:id').get(warehouseController.specificWarehouse);
 
 router.route('/add').post(warehouseController.addWarehouse)
 router.route('/:id').patch(warehouseController.editWarehouse)
+router.route('/:id').delete(warehouseController.deleteWarehouse)
 
 module.exports = router;
