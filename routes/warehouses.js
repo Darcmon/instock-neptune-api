@@ -8,5 +8,6 @@ router.route('/:id').get(warehouseController.specificWarehouse);
 
 
 router.route('/add').post(warehouseController.addWarehouse)
+router.route('/:id').patch(warehouseController.editWarehouse)
 
 module.exports = router;
