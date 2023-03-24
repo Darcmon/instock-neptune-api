@@ -20,3 +20,15 @@ exports.index = (_req, res) => {
       res.status(400).send(`Error retrieving Inventories: ${err}`)
     );
 };
+
+exports.deleteItem = (req, res) => {
+    knex('inventories')
+    //   .delete()
+      .where({ id: req.params.id })
+      .then(() => {
+        res.status(204).send(`Warehouse with id: ${req.params.id} has been deleted`);
+      })
+      .catch((err) =>
+        res.status(400).send(`Error deleting Warehouse ${req.params.id} ${err}`)
+      );
+  };
