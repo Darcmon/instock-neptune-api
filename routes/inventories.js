@@ -4,6 +4,7 @@ const knex = require('knex')(require('../knexfile'))
 const inventoryController = require('../controllers/inventoryController');
 
 router.route('/').get(inventoryController.index);
+router.route('/:id').get(inventoryController.singleItem);
 
 // router.get('/', (_req, res) => {
 //     res.status(200).send(console.log("🔥 GET/inventories Success!"));
