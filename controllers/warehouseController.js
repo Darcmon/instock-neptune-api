@@ -1,4 +1,5 @@
 const knex = require("knex")(require("../knexfile"));
+const {v4: uuid} = require('uuid')
 
 exports.index = (_req, res) => {
     knex
@@ -21,3 +22,30 @@ exports.index = (_req, res) => {
         }
         );
 };
+
+exports.addWarehouse = (req, res) => {
+    const {warehouseName, warehouseAddress, warehouseCity, warehouseCountry, contactName, contactPosition, contactNumber, contactEmail} = req.body
+
+    if (!warehouseName || !warehouseAddress || !warehouseCity || !warehouseCountry || !contactName || !contactPosition || !contactNumber || !contactEmail) {
+        return res.status(400).send('Please make sure to provide all fields');
+      }
+      const newWarehouse = {
+        id: uuid(),
+        warehouse_name: warehouseName,
+        address: warehouseAddress,
+        city: warehouseCity,
+        country: warehouseCountry,
+        contact_name: contactName,
+        contact_position: contactPosition,
+        contact_phone: contactNumber,
+        contact_email: contactEmail
+      }
+
+      knex('warehouses')
+      .insert(newWarehouse)
+      .then((data)=> {
+        const newWarehouseURL = `${newWarehouse.id}`
+        res.status(201).location(newWarehouseURL).send(newWarehouseURL);
+      })
+      .catch((err) => res.status(400).send(`Error creating Warehouse: ${err}`));
+}

@@ -10,4 +10,6 @@ router.get('/', (_req, res) => {
     res.status(200).send(console.log("🔥 GET/warehouses Success!"));
 });
 
+router.route('/add').post(warehouseController.addWarehouse)
+
 module.exports = router;
