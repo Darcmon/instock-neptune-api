@@ -10,6 +10,8 @@ router.route('/:id').get(inventoryController.singleItem);
 
 
 
+
+
 router
     .route('/')
     .post((req, res) => {
@@ -73,6 +75,47 @@ router
 module.exports = router;
 
 
+// exports.updateInventory = (req, res) => {
+//     const { warehouse_id, item_name, description, category, status, quantity } = req.body;
+//     const id = req.params.id;
+
+//     // Check for missing properties in the request body
+//     if (!id || !warehouse_id || !item_name || !description || !category || !status || quantity === undefined) {
+//         return res.status(400).json({ error: 'Missing properties in the request body' });
+//     }
+
+//     // Check if quantity is a valid number
+//     const parsedQuantity = Number(quantity);
+//     if (isNaN(parsedQuantity)) {
+//         return res.status(400).json({ error: 'Quantity must be a number' });
+//     }
+
+//     knex('inventories')
+//         .where('id', id)
+//         .update({
+//             warehouse_id,
+//             item_name,
+//             description,
+//             category,
+//             status,
+//             quantity: parsedQuantity
+//         })
+//         .then(() => {
+//             res.status(200).json({
+//                 id,
+//                 warehouse_id,
+//                 item_name,
+//                 description,
+//                 category,
+//                 status,
+//                 quantity: parsedQuantity
+//             });
+//         })
+//         .catch((err) =>
+//             res.status(400).json({ error: `Error updating inventory item ${id}: ${err}` })
+//         );
+// };
+
 exports.updateInventory = (req, res) => {
     const { warehouse_id, item_name, description, category, status, quantity } = req.body;
     const id = req.params.id;
@@ -88,28 +131,42 @@ exports.updateInventory = (req, res) => {
         return res.status(400).json({ error: 'Quantity must be a number' });
     }
 
-    knex('inventories')
-        .where('id', id)
-        .update({
-            warehouse_id,
-            item_name,
-            description,
-            category,
-            status,
-            quantity: parsedQuantity
-        })
-        .then(() => {
-            res.status(200).json({
-                id,
-                warehouse_id,
-                item_name,
-                description,
-                category,
-                status,
-                quantity: parsedQuantity
-            });
+    // Check if warehouse_id exists in warehouses table
+    knex('warehouses')
+        .where({ id: warehouse_id })
+        .first()
+        .then((warehouse) => {
+            if (!warehouse) {
+                return res.status(400).json({ error: `Warehouse with id ${warehouse_id} not found` });
+            }
+
+            // Update inventory item in database
+            return knex('inventory')
+                .update({
+                    warehouse_id,
+                    item_name,
+                    description,
+                    category,
+                    status,
+                    quantity: parsedQuantity
+                })
+                .where({ id })
+                .then(() => {
+                    res.status(200).json({
+                        id,
+                        warehouse_id,
+                        item_name,
+                        description,
+                        category,
+                        status,
+                        quantity: parsedQuantity
+                    });
+                })
+                .catch((err) =>
+                    res.status(400).json({ error: `Error updating inventory item ${id}: ${err}` })
+                );
         })
         .catch((err) =>
-            res.status(400).json({ error: `Error updating inventory item ${id}: ${err}` })
+            res.status(400).json({ error: `Error checking warehouse for inventory item ${id}: ${err}` })
         );
 };
