@@ -6,6 +6,7 @@ const warehouseController = require('../controllers/warehouseController');
 router.route('/').get(warehouseController.index);
 router.route('/:id').get(warehouseController.specificWarehouse);
 
+router.route('/:id/inventory').get(warehouseController.warehouseInventory);
 
 router.route('/add').post(warehouseController.addWarehouse)
 router.route('/:id').patch(warehouseController.editWarehouse)
