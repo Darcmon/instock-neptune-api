@@ -64,6 +64,25 @@ exports.specificWarehouse = (req, res) => {
     })
 }
 
+exports.warehouseInventory = (req, res) => {
+  knex('inventories')
+  .where({ warehouse_id: req.params.id })
+  .select(
+    'inventories.warehouse_id',
+    'inventories.id',
+    'inventories.item_name',
+    'inventories.category',
+    'inventories.status',
+    'inventories.quantity'
+  )
+  .then((inventory) => {
+    res.status(200).json(inventory);
+  })
+  .catch(() => {
+    res.status(400).json({ message: `Error getting inventory for warehouse id: ${req.params.id}` });
+  });
+}
+
 exports.editWarehouse = (req, res) => {
 
   const {warehouseName, warehouseAddress, warehouseCity, warehouseCountry, contactName, contactPosition, contactNumber, contactEmail} = req.body
