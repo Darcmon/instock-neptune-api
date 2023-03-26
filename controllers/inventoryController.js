@@ -21,6 +21,18 @@ exports.index = (_req, res) => {
     );
 };
 
+exports.deleteItem = (req, res) => {
+    knex('inventories')
+      .delete()
+      .where({ id: req.params.id })
+      .then(() => {
+        res.status(204).send(`Item with id: ${req.params.id} has been deleted.`);
+      })
+      .catch((err) =>
+        res.status(404).send(`Item with id ${req.params.id} is not found.`)
+      );
+    };
+
 exports.singleItem = (req, res) => {
     knex
       .where({ 'inventories.id': req.params.id })
