@@ -31,4 +31,30 @@ exports.deleteItem = (req, res) => {
       .catch((err) =>
         res.status(400).send(`Error deleting Warehouse ${req.params.id} ${err}`)
       );
+    };
+    
+exports.singleItem = (req, res) => {
+    knex
+      .where({ 'inventories.id': req.params.id })
+      .select(
+        "inventories.id",
+        "inventories.item_name",
+        "inventories.description",
+        "inventories.category",
+        "inventories.status",
+        "inventories.quantity",
+        'warehouses.warehouse_name'
+      )
+      .from("inventories")
+      .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id')
+      .then((data) => {
+        console.log(data);
+        if (!data.length){
+            return res.status(404).send(`Record with id: ${req.params.id} is not found`);
+        }
+        res.status(200).json(data[0]);
+      })
+      .catch((err) =>
+        res.status(400).send(`Error retrieving item ${req.params.id} ${err}`)
+      );
   };

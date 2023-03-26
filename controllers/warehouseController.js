@@ -95,3 +95,20 @@ exports.editWarehouse = (req, res) => {
       })
     })
 }
+
+exports.deleteWarehouse = (req, res) => {
+  if (!req.params.id) {
+    res.send(400).json({
+      message: `Need to pass existing warehouse id`
+    })
+  }
+  knex('warehouses')
+    .delete()
+    .where({id: req.params.id})
+    .then(() => {
+      res.status(204).send(`Warehouse with id ${req.params.id} has been deleted.`)
+    })
+    .catch((err) => {
+      res.status(400).send(`Warehouse with id ${req.params.id} is not found.`)
+    })
+}
