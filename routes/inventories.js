@@ -11,6 +11,7 @@ router.route('/:id').patch(inventoryController.updateInventory)
 
 
 
+
 router
     .route('/')
     .post((req, res) => {
