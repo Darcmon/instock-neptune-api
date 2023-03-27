@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 router.route('/').get(inventoryController.index);
 router.route('/:id').get(inventoryController.singleItem);
 router.route('/:id').patch(inventoryController.updateInventory)
-
+router.route('/:id').delete(inventoryController.deleteItem)
 
 
 
