@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 
 router.route('/').get(inventoryController.index);
 router.route('/:id')
+    .patch(inventoryController.updateInventory)
     .get(inventoryController.singleItem)
     .delete(inventoryController.deleteItem)
 
