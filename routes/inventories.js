@@ -6,9 +6,9 @@ const { v4: uuidv4 } = require('uuid');
 
 
 router.route('/').get(inventoryController.index);
-router.route('/:id').get(inventoryController.singleItem);
-router.route('/:id').patch(inventoryController.updateInventory)
-
+router.route('/:id')
+    .get(inventoryController.singleItem)
+    .delete(inventoryController.deleteItem)
 
 
 
@@ -74,3 +74,44 @@ router
 
 module.exports = router;
 
+
+// exports.updateInventory = (req, res) => {
+//     const { warehouse_id, item_name, description, category, status, quantity } = req.body;
+//     const id = req.params.id;
+
+//     // Check for missing properties in the request body
+//     if (!id || !warehouse_id || !item_name || !description || !category || !status || quantity === undefined) {
+//         return res.status(400).json({ error: 'Missing properties in the request body' });
+//     }
+
+//     // Check if quantity is a valid number
+//     const parsedQuantity = Number(quantity);
+//     if (isNaN(parsedQuantity)) {
+//         return res.status(400).json({ error: 'Quantity must be a number' });
+//     }
+
+//     knex('inventories')
+//         .where('id', id)
+//         .update({
+//             warehouse_id,
+//             item_name,
+//             description,
+//             category,
+//             status,
+//             quantity: parsedQuantity
+//         })
+//         .then(() => {
+//             res.status(200).json({
+//                 id,
+//                 warehouse_id,
+//                 item_name,
+//                 description,
+//                 category,
+//                 status,
+//                 quantity: parsedQuantity
+//             });
+//         })
+//         .catch((err) =>
+//             res.status(400).json({ error: `Error updating inventory item ${id}: ${err}` })
+//         );
+// };
