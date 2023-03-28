@@ -48,7 +48,6 @@ exports.singleItem = (req, res) => {
     .from("inventories")
     .join('warehouses', 'inventories.warehouse_id', '=', 'warehouses.id')
     .then((data) => {
-      console.log(data);
       if (!data.length) {
         return res.status(404).send(`Record with id: ${req.params.id} is not found`);
       }
